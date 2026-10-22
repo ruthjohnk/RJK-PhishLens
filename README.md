@@ -542,4 +542,4 @@ You are free to study and modify the code for learning purposes.
 ### Detect • Analyze • Protect
 
 **Think before you click.**
-```
+
