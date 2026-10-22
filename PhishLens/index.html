@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RJK PhishLens</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    overflow-x: hidden;
+
+    background:
+        radial-gradient(circle at 15% 20%, rgba(123,63,180,.22), transparent 28%),
+        radial-gradient(circle at 85% 15%, rgba(180,80,220,.16), transparent 25%),
+        linear-gradient(
+            180deg,
+            #080713 0%,
+            #100b1c 45%,
+            #05050b 100%
+        );
+
+    position: relative;
+}
+
+/* STARS */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background-image:
+        radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 1px),
+        radial-gradient(circle, rgba(190,130,255,.5) 1px, transparent 1px);
+
+    background-size: 90px 90px, 150px 150px;
+    background-position: 20px 30px, 80px 70px;
+
+    opacity: .35;
+    pointer-events: none;
+}
+
+/* GLOW */
+
+.glow {
+    position: fixed;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+
+    background: rgba(137,72,194,.13);
+    filter: blur(90px);
+
+    top: -120px;
+    right: -100px;
+
+    pointer-events: none;
+}
+
+.glow2 {
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+
+    background: rgba(90,45,150,.13);
+    filter: blur(80px);
+
+    bottom: -100px;
+    left: -80px;
+
+    pointer-events: none;
+}
+
+/* CITY */
+
+.city {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 170px;
+
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+
+    opacity: .55;
+    z-index: 0;
+}
+
+.building {
+    background: linear-gradient(
+        180deg,
+        #11101a,
+        #05050a
+    );
+
+    border: 1px solid rgba(255,255,255,.035);
+    position: relative;
+}
+
+.building::after {
+    content: "";
+
+    position: absolute;
+    inset: 15px 8px;
+
+    background-image:
+        linear-gradient(
+            90deg,
+            transparent 70%,
+            rgba(255,190,80,.22) 70%
+        ),
+        linear-gradient(
+            rgba(255,190,80,.18) 2px,
+            transparent 2px
+        );
+
+    background-size: 24px 24px;
+    opacity: .35;
+}
+
+.b1 { height: 90px; width: 8%; }
+.b2 { height: 140px; width: 10%; }
+.b3 { height: 110px; width: 7%; }
+.b4 { height: 165px; width: 11%; }
+.b5 { height: 125px; width: 8%; }
+.b6 { height: 150px; width: 10%; }
+.b7 { height: 100px; width: 7%; }
+.b8 { height: 175px; width: 12%; }
+.b9 { height: 120px; width: 9%; }
+.b10 { height: 145px; width: 11%; }
+
+/* MAIN */
+
+.container {
+    position: relative;
+    z-index: 2;
+
+    width: min(900px, 92%);
+    margin: auto;
+
+    padding: 55px 0 220px;
+}
+
+/* HEADER */
+
+.header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.logo {
+    font-family: 'Allura', cursive;
+
+    font-size: clamp(65px, 10vw, 105px);
+
+    font-weight: 400;
+    line-height: .9;
+
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        #d8b5ff,
+        #9e63d6
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
+
+    text-shadow:
+        0 0 25px rgba(170,100,230,.25);
+}
+
+.subtitle {
+    margin-top: 15px;
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
+
+    color: #a99bb5;
+
+    text-transform: uppercase;
+}
+
+.symbol {
+    margin-top: 18px;
+
+    font-size: 19px;
+
+    color: #b783db;
+
+    letter-spacing: 12px;
+
+    opacity: .8;
+}
+
+/* CARD */
+
+.card {
+    position: relative;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30,23,45,.88),
+            rgba(10,9,17,.93)
+        );
+
+    border: 1px solid rgba(190,130,240,.20);
+
+    border-radius: 24px;
+
+    padding: 34px;
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.55),
+        inset 0 1px rgba(255,255,255,.04);
+
+    backdrop-filter: blur(20px);
+}
+
+.card::before {
+    content: "";
+
+    position: absolute;
+
+    inset: -1px;
+
+    border-radius: 24px;
+
+    padding: 1px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(200,140,255,.4),
+        transparent 35%,
+        transparent 65%,
+        rgba(140,80,200,.25)
+    );
+
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    pointer-events: none;
+}
+
+/* LABEL */
+
+.label {
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    color: #cbb5dc;
+
+    margin-bottom: 10px;
+
+    text-transform: uppercase;
+}
+
+/* INPUTS */
+
+input,
+textarea {
+
+    width: 100%;
+
+    background: rgba(4,4,9,.75);
+
+    border: 1px solid rgba(190,150,220,.18);
+
+    color: white;
+
+    border-radius: 13px;
+
+    padding: 15px 16px;
+
+    font-family: 'Montserrat', sans-serif;
+
+    outline: none;
+
+    transition: .25s;
+}
+
+input {
+    height: 52px;
+}
+
+textarea {
+    min-height: 110px;
+
+    resize: vertical;
+
+    margin-top: 8px;
+}
+
+input:focus,
+textarea:focus {
+
+    border-color: #a86bd1;
+
+    box-shadow:
+        0 0 0 3px rgba(168,107,209,.10),
+        0 0 25px rgba(140,70,190,.12);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #6f6478;
+}
+
+/* BUTTON */
+
+button {
+
+    width: 100%;
+
+    margin-top: 22px;
+
+    height: 55px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    cursor: pointer;
+
+    color: white;
+
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #70429a,
+            #9b5bc5
+        );
+
+    box-shadow:
+        0 10px 30px rgba(130,70,170,.25);
+
+    transition: .25s;
+}
+
+button:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 15px 35px rgba(150,80,200,.35);
+}
+
+button:active {
+    transform: scale(.98);
+}
+
+/* RESULT */
+
+.hidden {
+    display: none;
+}
+
+.result {
+
+    margin-top: 25px;
+
+    padding-top: 25px;
+
+    border-top: 1px solid rgba(255,255,255,.08);
+}
+
+/* VERDICT */
+
+.verdict {
+
+    text-align: center;
+
+    padding: 22px;
+
+    border-radius: 16px;
+
+    background: rgba(255,255,255,.035);
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    margin-bottom: 25px;
+
+    transition: .3s;
+}
+
+.verdict h2 {
+
+    font-size: 21px;
+
+    margin-bottom: 8px;
+}
+
+.verdict p {
+
+    color: #a9a0af;
+
+    font-size: 13px;
+}
+
+/* RISK COLORS */
+
+.verdict.safe {
+    border-color: rgba(70,220,130,.5);
+    background: rgba(40,180,100,.08);
+    box-shadow: 0 0 25px rgba(40,200,120,.08);
+}
+
+.verdict.safe h2 {
+    color: #63e69b;
+}
+
+.verdict.caution {
+    border-color: rgba(255,205,70,.55);
+    background: rgba(230,170,40,.08);
+    box-shadow: 0 0 25px rgba(255,190,50,.08);
+}
+
+.verdict.caution h2 {
+    color: #ffd45c;
+}
+
+.verdict.danger {
+    border-color: rgba(255,70,90,.55);
+    background: rgba(220,40,60,.09);
+    box-shadow: 0 0 25px rgba(255,50,70,.10);
+}
+
+.verdict.danger h2 {
+    color: #ff6478;
+}
+
+/* SCORE */
+
+.score-area {
+    margin-bottom: 30px;
+}
+
+.score-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 10px;
+
+    font-size: 13px;
+
+    color: #c8bdcf;
+}
+
+#scoreValue {
+
+    font-size: 22px;
+
+    font-weight: 800;
+}
+
+.score-bar {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 12px;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    display: flex;
+
+    background: #1b1721;
+}
+
+/* THREE COLOR RISK BAR */
+
+.score-green {
+    width: 25%;
+    background: #32c875;
+}
+
+.score-yellow {
+    width: 45%;
+    background: #e6bd42;
+}
+
+.score-red {
+    width: 30%;
+    background: #e65363;
+}
+
+#barMarker {
+
+    position: absolute;
+
+    top: -5px;
+
+    width: 4px;
+
+    height: 22px;
+
+    background: white;
+
+    border-radius: 5px;
+
+    box-shadow:
+        0 0 8px white;
+
+    transition: left .7s ease;
+}
+
+/* LEGEND */
+
+.risk-legend {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 9px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.green-text {
+    color: #63e69b;
+}
+
+.yellow-text {
+    color: #ffd45c;
+}
+
+.red-text {
+    color: #ff6478;
+}
+
+/* THREAT TABLE */
+
+.section-title {
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    color: #cdb9d9;
+
+    text-transform: uppercase;
+
+    margin-bottom: 12px;
+}
+
+.threat-list {
+
+    border: 1px solid rgba(255,255,255,.07);
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    margin-bottom: 25px;
+}
+
+.threat-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 14px 16px;
+
+    border-bottom: 1px solid rgba(255,255,255,.055);
+
+    background: rgba(255,255,255,.015);
+
+    transition: .2s;
+}
+
+.threat-row:last-child {
+    border-bottom: none;
+}
+
+.threat-row:hover {
+    background: rgba(255,255,255,.035);
+}
+
+.threat-name {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 12px;
+
+    color: #d0c7d5;
+}
+
+.status {
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    padding: 6px 9px;
+
+    border-radius: 20px;
+}
+
+/* DETECTED */
+
+.threat-row.detected {
+    border-left: 3px solid #e65363;
+}
+
+.detected .status {
+
+    color: #ff7180;
+
+    background: rgba(230,70,90,.12);
+
+    border: 1px solid rgba(230,70,90,.25);
+}
+
+/* NOT DETECTED */
+
+.threat-row.not-detected {
+    border-left: 3px solid #32c875;
+}
+
+.not-detected .status {
+
+    color: #63e69b;
+
+    background: rgba(50,200,117,.10);
+
+    border: 1px solid rgba(50,200,117,.22);
+}
+
+/* RECOMMENDATION */
+
+.recommendation {
+
+    margin-top: 25px;
+
+    padding: 17px;
+
+    border-radius: 13px;
+
+    background: rgba(116,70,150,.09);
+
+    border-left: 3px solid #9b62bf;
+
+    color: #c9c0ce;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+/* FOOTER */
+
+.footer {
+
+    text-align: center;
+
+    margin-top: 30px;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    color: #615968;
+}
+
+.footer span {
+    color: #9873ad;
+}
+
+/* MOBILE */
+
+@media(max-width:600px) {
+
+    .container {
+        padding-top: 35px;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    .logo {
+        font-size: 70px;
+    }
+
+    .city {
+        height: 110px;
+    }
+
+    .threat-row {
+        gap: 10px;
+    }
+
+    .threat-name {
+        font-size: 11px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="glow"></div>
+<div class="glow2"></div>
+
+<!-- CITY BACKGROUND -->
+
+<div class="city">
+    <div class="building b1"></div>
+    <div class="building b2"></div>
+    <div class="building b3"></div>
+    <div class="building b4"></div>
+    <div class="building b5"></div>
+    <div class="building b6"></div>
+    <div class="building b7"></div>
+    <div class="building b8"></div>
+    <div class="building b9"></div>
+    <div class="building b10"></div>
+</div>
+
+
+<div class="container">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="logo">
+    <div class="rjk">RJK</div>
+    <div class="phishlens">PhishLens</div>
+</div>
+
+        <div class="subtitle">
+            Detect • Analyze • Protect
+        </div>
+
+        <div class="symbol">
+            ✦ ◇ ✦
+        </div>
+
+    </div>
+
+
+    <!-- CARD -->
+
+    <div class="card">
+
+        <div class="label">
+            🔗 Suspicious URL
+        </div>
+
+        <input
+            id="urlInput"
+            type="text"
+            placeholder="Paste a suspicious URL here..."
+        >
+
+        <br><br>
+
+        <div class="label">
+            💬 Message / Email Content
+        </div>
+
+        <textarea
+            id="messageInput"
+            placeholder="Optional: paste the suspicious message, email, SMS, or social media text here..."
+        ></textarea>
+
+        <button onclick="analyze()">
+            🔍 ANALYZE THREAT
+        </button>
+
+
+        <!-- RESULTS -->
+
+        <div id="result" class="result hidden">
+
+
+            <!-- ALERT -->
+
+            <div id="verdict" class="verdict">
+
+                <h2 id="verdictText"></h2>
+
+                <p id="verdictDescription"></p>
+
+            </div>
+
+
+            <!-- SCORE -->
+
+            <div class="score-area">
+
+                <div class="score-header">
+
+                    <span>
+                        PHISHING RISK SCORE
+                    </span>
+
+                    <span id="scoreValue">
+                        0/100
+                    </span>
+
+                </div>
+
+
+                <div class="score-bar">
+
+                    <div class="score-green"></div>
+                    <div class="score-yellow"></div>
+                    <div class="score-red"></div>
+
+                    <div id="barMarker"></div>
+
+                </div>
+
+
+                <div class="risk-legend">
+
+                    <span class="green-text">
+                        SAFE 0–24
+                    </span>
+
+                    <span class="yellow-text">
+                        CAUTION 25–69
+                    </span>
+
+                    <span class="red-text">
+                        HIGH RISK 70–100
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ALL THREATS -->
+
+            <div class="section-title">
+                Security Threat Analysis
+            </div>
+
+            <div
+                id="threatList"
+                class="threat-list">
+            </div>
+
+
+            <!-- RECOMMENDATION -->
+
+            <div
+                id="recommendation"
+                class="recommendation">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        RJK PhishLens <span>♡</span> Cybersecurity Project
+    </div>
+
+</div>
+
+
+<script>
+
+function analyze() {
+
+    const urlInput =
+        document.getElementById("urlInput");
+
+    const messageInput =
+        document.getElementById("messageInput");
+
+    const result =
+        document.getElementById("result");
+
+    const verdict =
+        document.getElementById("verdict");
+
+    const verdictText =
+        document.getElementById("verdictText");
+
+    const verdictDescription =
+        document.getElementById("verdictDescription");
+
+    const scoreValue =
+        document.getElementById("scoreValue");
+
+    const barMarker =
+        document.getElementById("barMarker");
+
+    const threatList =
+        document.getElementById("threatList");
+
+    const recommendation =
+        document.getElementById("recommendation");
+
+
+    let testURL =
+        urlInput.value.trim();
+
+    let message =
+        messageInput.value.trim().toLowerCase();
+
+
+    if (!testURL && !message) {
+
+        alert(
+            "Please enter a URL or suspicious message first."
+        );
+
+        return;
+    }
+
+
+    let score = 0;
+
+    /*
+       Every threat has a default
+       NOT DETECTED state.
+    */
+
+    let securityChecks = [
+
+        ["HTTPS Encryption", false],
+        ["IP Address Used as Domain", false],
+        ["Unusually Long URL", false],
+        ["URL Obfuscation (@ symbol)", false],
+        ["Credential Phishing", false],
+        ["Reward / Lottery Scam", false],
+        ["Suspicious Domain Extension", false],
+        ["Multiple Domain Hyphens", false],
+        ["URL Shortener", false],
+        ["Punycode / IDN Spoofing", false],
+
+        ["Urgency / Fear Tactic", false],
+        ["Financial Phishing", false],
+        ["OTP / MFA Phishing", false],
+        ["QR Phishing", false],
+        ["OAuth Consent Phishing", false],
+        ["Delivery Phishing", false],
+        ["Job / Recruitment Scam", false],
+        ["Callback / Vishing", false],
+        ["Malware / Malicious Download", false],
+        ["Credential Harvesting", false]
+
+    ];
+
+
+    function detect(name, points) {
+
+        const item =
+            securityChecks.find(
+                check => check[0] === name
+            );
+
+        if (item) {
+
+            item[1] = true;
+
+        }
+
+        score += points;
+
+    }
+
+
+    /* =========================
+       URL ANALYSIS
+    ========================= */
+
+    if (testURL) {
+
+        if (
+            !testURL.startsWith("http://") &&
+            !testURL.startsWith("https://")
+        ) {
+
+            testURL =
+                "https://" + testURL;
+
+        }
+
+
+        let parsedURL;
+
+        try {
+
+            parsedURL =
+                new URL(testURL);
+
+        } catch {
+
+            alert(
+                "That does not look like a valid URL."
+            );
+
+            return;
+        }
+
+
+        const hostname =
+            parsedURL.hostname.toLowerCase();
+
+        const fullURL =
+            testURL.toLowerCase();
+
+
+        /* HTTPS */
+
+        if (
+            parsedURL.protocol !== "https:"
+        ) {
+
+            detect(
+                "HTTPS Encryption",
+                15
+            );
+
+        }
+
+
+        /* IP */
+
+        const ipPattern =
+            /^(\d{1,3}\.){3}\d{1,3}$/;
+
+        if (
+            ipPattern.test(hostname)
+        ) {
+
+            detect(
+                "IP Address Used as Domain",
+                25
+            );
+
+        }
+
+
+        /* LONG URL */
+
+        if (
+            testURL.length > 90
+        ) {
+
+            detect(
+                "Unusually Long URL",
+                15
+            );
+
+        }
+
+
+        /* @ */
+
+        if (
+            testURL.includes("@")
+        ) {
+
+            detect(
+                "URL Obfuscation (@ symbol)",
+                25
+            );
+
+        }
+
+
+        /* LOGIN */
+
+        const loginWords = [
+
+            "login",
+            "verify",
+            "verification",
+            "password",
+            "account",
+            "signin",
+            "secure",
+            "confirm",
+            "credential"
+
+        ];
+
+        if (
+            loginWords.some(
+                word => hostname.includes(word)
+            )
+        ) {
+
+            detect(
+                "Credential Phishing",
+                20
+            );
+
+        }
+
+
+        /* REWARD */
+
+        const rewardWords = [
+
+            "winner",
+            "winning",
+            "reward",
+            "prize",
+            "lottery",
+            "gift",
+            "bonus",
+            "cash",
+            "free"
+
+        ];
+
+        if (
+            rewardWords.some(
+                word => fullURL.includes(word)
+            )
+        ) {
+
+            detect(
+                "Reward / Lottery Scam",
+                25
+            );
+
+        }
+
+
+        /* TLD */
+
+        const suspiciousTLDs = [
+
+            ".xyz",
+            ".top",
+            ".click",
+            ".win",
+            ".buzz",
+            ".live",
+            ".shop",
+            ".tk",
+            ".ml",
+            ".ga",
+            ".cf"
+
+        ];
+
+        if (
+            suspiciousTLDs.some(
+                tld => hostname.endsWith(tld)
+            )
+        ) {
+
+            detect(
+                "Suspicious Domain Extension",
+                20
+            );
+
+        }
+
+
+        /* HYPHENS */
+
+        const hyphens =
+            (hostname.match(/-/g) || []).length;
+
+        if (
+            hyphens >= 2
+        ) {
+
+            detect(
+                "Multiple Domain Hyphens",
+                10
+            );
+
+        }
+
+
+        /* SHORTENER */
+
+        const shorteners = [
+
+            "bit.ly",
+            "tinyurl.com",
+            "t.co",
+            "goo.gl",
+            "is.gd",
+            "cutt.ly"
+
+        ];
+
+        if (
+            shorteners.some(
+                s => hostname.includes(s)
+            )
+        ) {
+
+            detect(
+                "URL Shortener",
+                20
+            );
+
+        }
+
+
+        /* PUNYCODE */
+
+        if (
+            hostname.includes("xn--")
+        ) {
+
+            detect(
+                "Punycode / IDN Spoofing",
+                30
+            );
+
+        }
+
+    }
+
+
+    /* =========================
+       MESSAGE ANALYSIS
+    ========================= */
+
+
+    if (message) {
+
+
+        /* REWARD */
+
+        if (
+            /lottery|winner|won|prize|reward|gift|cash|₹|money|bonus/.test(message)
+        ) {
+
+            detect(
+                "Reward / Lottery Scam",
+                25
+            );
+
+        }
+
+
+        /* URGENCY */
+
+        if (
+            /urgent|immediately|act now|within 24 hours|expire|last chance|suspended/.test(message)
+        ) {
+
+            detect(
+                "Urgency / Fear Tactic",
+                20
+            );
+
+        }
+
+
+        /* FINANCIAL */
+
+        if (
+            /bank|credit card|debit card|payment|refund|transaction|wallet|upi/.test(message)
+        ) {
+
+            detect(
+                "Financial Phishing",
+                20
+            );
+
+        }
+
+
+        /* OTP */
+
+        if (
+            /otp|one time password|verification code|mfa|authentication code/.test(message)
+        ) {
+
+            detect(
+                "OTP / MFA Phishing",
+                25
+            );
+
+        }
+
+
+        /* QR */
+
+        if (
+            /qr code|scan this qr|scan qr/.test(message)
+        ) {
+
+            detect(
+                "QR Phishing",
+                20
+            );
+
+        }
+
+
+        /* OAUTH */
+
+        if (
+            /oauth|grant access|allow access|authorize|permissions/.test(message)
+        ) {
+
+            detect(
+                "OAuth Consent Phishing",
+                20
+            );
+
+        }
+
+
+        /* DELIVERY */
+
+        if (
+            /delivery|package|parcel|courier|shipment|customs/.test(message)
+        ) {
+
+            detect(
+                "Delivery Phishing",
+                15
+            );
+
+        }
+
+
+        /* JOB */
+
+        if (
+            /job offer|hiring|recruiter|salary|work from home|employment/.test(message)
+        ) {
+
+            detect(
+                "Job / Recruitment Scam",
+                15
+            );
+
+        }
+
+
+        /* CALLBACK */
+
+        if (
+            /call us|call back|phone number|support number|customer care/.test(message)
+        ) {
+
+            detect(
+                "Callback / Vishing",
+                15
+            );
+
+        }
+
+
+        /* MALWARE */
+
+        if (
+            /download|apk|exe|zip file|install this|attachment/.test(message)
+        ) {
+
+            detect(
+                "Malware / Malicious Download",
+                25
+            );
+
+        }
+
+
+        /* CREDENTIAL */
+
+        if (
+            /password|username|login|verify your account|confirm your identity/.test(message)
+        ) {
+
+            detect(
+                "Credential Harvesting",
+                25
+            );
+
+        }
+
+    }
+
+
+    /* LIMIT SCORE */
+
+    score =
+        Math.min(score, 100);
+
+
+    /* =========================
+       VERDICT
+    ========================= */
+
+    let verdictMessage;
+    let description;
+    let verdictClass;
+
+
+    if (score >= 70) {
+
+        verdictMessage =
+            "DO NOT OPEN THIS LINK — VERY SUSPICIOUS";
+
+        description =
+            "Multiple high-risk phishing indicators were detected. Avoid opening the link or providing sensitive information.";
+
+        verdictClass =
+            "danger";
+
+    }
+
+    else if (score >= 25) {
+
+        verdictMessage =
+            "OPEN WITH CAUTION";
+
+        description =
+            "Suspicious indicators were detected. Verify the source independently before interacting.";
+
+        verdictClass =
+            "caution";
+
+    }
+
+    else {
+
+        verdictMessage =
+            "SITE APPEARS SAFE";
+
+        description =
+            "No major phishing indicators were detected by this heuristic analysis.";
+
+        verdictClass =
+            "safe";
+
+    }
+
+
+    /* =========================
+       SHOW RESULT
+    ========================= */
+
+    result.classList.remove("hidden");
+
+    verdict.className =
+        "verdict " + verdictClass;
+
+    verdictText.textContent =
+        verdictMessage;
+
+    verdictDescription.textContent =
+        description;
+
+    scoreValue.textContent =
+        score + "/100";
+
+
+    /* SCORE MARKER */
+
+    barMarker.style.left =
+        "calc(" + score + "% - 2px)";
+
+
+    /* SCORE COLOR */
+
+    if (score >= 70) {
+
+        scoreValue.style.color =
+            "#ff6478";
+
+    }
+
+    else if (score >= 25) {
+
+        scoreValue.style.color =
+            "#ffd45c";
+
+    }
+
+    else {
+
+        scoreValue.style.color =
+            "#63e69b";
+
+    }
+
+
+    /* =========================
+       SHOW EVERY CHECK
+    ========================= */
+
+    threatList.innerHTML = "";
+
+
+    securityChecks.forEach(
+        check => {
+
+            const name =
+                check[0];
+
+            const detected =
+                check[1];
+
+            const row =
+                document.createElement("div");
+
+
+            if (detected) {
+
+                row.className =
+                    "threat-row detected";
+
+                row.innerHTML = `
+
+                    <div class="threat-name">
+
+                        <span>🔴</span>
+
+                        <span>
+                            ${name}
+                        </span>
+
+                    </div>
+
+                    <div class="status">
+                        THREAT DETECTED
+                    </div>
+
+                `;
+
+            }
+
+            else {
+
+                row.className =
+                    "threat-row not-detected";
+
+                row.innerHTML = `
+
+                    <div class="threat-name">
+
+                        <span>🟢</span>
+
+                        <span>
+                            ${name}
+                        </span>
+
+                    </div>
+
+                    <div class="status">
+                        NOT DETECTED
+                    </div>
+
+                `;
+
+            }
+
+
+            threatList.appendChild(row);
+
+        }
+    );
+
+
+    /* =========================
+       RECOMMENDATION
+    ========================= */
+
+    if (score >= 70) {
+
+        recommendation.innerHTML =
+
+            "🛑 <strong>Recommendation:</strong> Do not click the link, download files, enter credentials, provide OTPs, or make payments. Verify the sender through an official channel.";
+
+    }
+
+    else if (score >= 25) {
+
+        recommendation.innerHTML =
+
+            "⚠️ <strong>Recommendation:</strong> Treat this as suspicious. Verify the sender, domain, and request independently before interacting.";
+
+    }
+
+    else {
+
+        recommendation.innerHTML =
+
+            "✓ <strong>Recommendation:</strong> No major indicators were detected. Continue using normal security precautions.";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
