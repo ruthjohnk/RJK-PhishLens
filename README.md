@@ -543,5 +543,3 @@ You are free to study and modify the code for learning purposes.
 
 **Think before you click.**
 ```
-
-That whole block is **one single README**. Just copy from the first `# 🔐 RJK PhishLens` all the way to `**Think before you click.**` and paste it into GitHub.
